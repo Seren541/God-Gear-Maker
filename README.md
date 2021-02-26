@@ -1,3 +1,4 @@
+IMPORTANT: exe file is temporarily out of sync with the program </br>
 Helps you make god gear with enchantments of your choice.</br>
 </br>
 Many problems/features not yet implemented, will implement in the next versions though.</br>
