@@ -1,5 +1,8 @@
 package pack;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,16 +35,22 @@ public class Main {
 			"Pumpkin", "Elytra", "Trident", "Flint and Steel", "Carrot on a Stick",
 			"Warped Fungus on a Stick", "Shield"};
 
-
+	//sets all valid enchantments/items
 	
 	public ArrayList<String> compute = new ArrayList<>();
 	ArrayList<String> fin = new ArrayList<>();
 	ArrayList<String> seq = new ArrayList<>();
+	ArrayList<String> inst = new ArrayList<>();
 	
 	String item = "error2";
+	String name;
+	boolean notCreated;
 	
 	int[] m = {4,4,4,4,4,3,3,3,1,5,5,5,2,2,3,5,1,3,3,5,2,1,1,3,3,2,1,1,1,5,3,3,1,1,4,3,3,3};
 	int[] i = {1,1,1,2,1,4,2,2,2,1,1,1,1,2,2,1,4,1,2,1,2,2,4,2,2,2,2,4,4,2,2,1,4,2,1,1,4,2};
+	
+	int seti = 0;
+	boolean set = false;
 	
 	//This is just data about the enchantments that I need to store to calculate cost.
 	
@@ -51,7 +60,7 @@ public class Main {
 	
 	public void setUp() {
 			
-		System.out.println("If you don't know the correct formatting for an item, type 'List'");
+		System.out.println("What would you like to enchant? Do not include material in answer.");
 		boolean checking = true;
 		while (checking) {
 		itemQuery();
@@ -65,16 +74,17 @@ public class Main {
 			System.out.println("This is not a proper item. Please input a correct one. Type List to get a list.");
 		}
 		}
+		//this part figures out which item you are trying to enchant (calls itemQuery())
 		
 		ItemType select = new ItemType(tempEn, item);
 		
 		select.item();
+		
+		//calls the other class to do the dirty work
 				
 	}
 	
 	public void itemQuery() {
-
-		System.out.println("What would you like to enchant? Do not include material in answer.");
 		
 		Scanner in1 = new Scanner(System.in);  //Input item.
 		
@@ -84,20 +94,24 @@ public class Main {
 	
 	public void compute(String xItem) {
 		
-		//TODO: I'll add more stuff today like compatibility warnings, less spam,
-		//and if I'm really feeling it, export to a txt file
+		//TODO: I'll add more stuff like compatibility warnings. Also I need to fix all the errors.
 		
 		String tempNum;
 		int tempNumInt;
 		
 		Object[] conv = compute.toArray();
 		String[] convert = Arrays.copyOf(conv, conv.length, String[].class);
+		//ArrayList to array for more compatibility
+		
 		
 		for(int l = 0; l < e.length; l++) {
 			tempNumInt = m[l] * i[l];
 			tempNum = String.valueOf(tempNumInt);
 			e[l] = e[l]+tempNum;
 		}
+		//multiplier x item level = xp required to use the book as a sacrifice at base level
+		//used to determine order
+		
 		for(int r = 0; r < e2.length; r++) {
 			for(int l = 0; l < compute.size(); l++) {
 			
@@ -106,6 +120,7 @@ public class Main {
 				}
 			}
 		}
+		//this part organizes it by the non-numerical order I listed at the top, so the recipe is consistent
 		
 	    Collections.sort(fin, new Comparator<String>() {
 	        public int compare(String o1, String o2) {
@@ -119,11 +134,14 @@ public class Main {
 	        }
 	    });
 	    
+	    //this part orders it by the multipliers
+	    
 
 	    
 	    Object[] fina = fin.toArray();
 		String[] f = Arrays.copyOf(fina, fina.length, String[].class);
 	
+		//finally we get our usable string[] to calculate order
 		
 		for(int l2 = 0; l2 < f.length; l2++) {
 			f[l2] = f[l2].replaceAll("[0-9]","");
@@ -181,75 +199,82 @@ public class Main {
 			}
 		}
 		
+		//order they need to be added them
+		
 	    Object[] print = seq.toArray();
 		String[] p = Arrays.copyOf(print, print.length, String[].class); //turns final organized array list into readable data
 		
 		System.out.println("");
 
 		if (seq.size() == 1) {
-			System.out.println("Combine " + xItem + " with " + p[0] + " in an anvil.");
+			inst.add("Combine " + xItem + " with " + p[0] + " in an anvil.");
 		}
 		else if (seq.size() == 2) {
-			System.out.println("Combine " + xItem + " with " + p[0] + " in an anvil.");
-			System.out.println("Combine your " + p[0] + " " + xItem + " with " + p[1] + ".");
+			inst.add("Combine " + xItem + " with " + p[0] + " in an anvil.");
+			inst.add("Combine your " + p[0] + " " + xItem + " with " + p[1] + ".");
 		}
 		else if (seq.size() == 3) {
-			System.out.println("Combine " + xItem + " with " + p[0] + " in an anvil.");
-			System.out.println("Next combine your " + p[1] + " book with your " + p[2] + " book.");
-			System.out.println("Finally combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
+			inst.add("Combine " + xItem + " with " + p[0] + " in an anvil.");
+			inst.add("Next combine your " + p[1] + " book with your " + p[2] + " book.");
+			inst.add("Finally combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
 		}
 		else if (seq.size() == 4) {
-			System.out.println("Combine " + xItem + " with " + p[0] + " in an anvil.");
-			System.out.println("Next combine your " + p[1] + " book with your " + p[2] + " book.");
-			System.out.println("After that, combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
-			System.out.println("Finally combine your " + xItem + " with the " + p[3] + " book.");
+			inst.add("Combine " + xItem + " with " + p[0] + " in an anvil.");
+			inst.add("Next combine your " + p[1] + " book with your " + p[2] + " book.");
+			inst.add("After that, combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
+			inst.add("Finally combine your " + xItem + " with the " + p[3] + " book.");
 		}
 		else if (seq.size() == 5) {
-			System.out.println("Combine " + xItem + " with " + p[0] + " in an anvil.");
-			System.out.println("Next combine your " + p[1] + " book with your " + p[2] + " book.");
-			System.out.println("After that, combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
-			System.out.println("Now combine your " + p[3] + " book with your " + p[4] + " book.");
-			System.out.println("Finally combine your " + xItem + " with your " + p[3] + " and " + p[4] + " book.");
+			inst.add("Combine " + xItem + " with " + p[0] + " in an anvil.");
+			inst.add("Next combine your " + p[1] + " book with your " + p[2] + " book.");
+			inst.add("After that, combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
+			inst.add("Now combine your " + p[3] + " book with your " + p[4] + " book.");
+			inst.add("Finally combine your " + xItem + " with your " + p[3] + " and " + p[4] + " book.");
 		}
 		else if (seq.size() == 6) {
-			System.out.println("Combine " + xItem + " with " + p[0] + " in an anvil.");
-			System.out.println("Next combine your " + p[1] + " book with your " + p[2] + " book.");
-			System.out.println("After that, combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
-			System.out.println("Now combine your " + p[3] + " book with your " + p[4] + " book.");
-			System.out.println("Afterwards combine your " + xItem + " with your " + p[3] + " and " + p[4] + " book.");
-			System.out.println("Finally combine your " + xItem + " with the " + p[5] + " book.");
+			inst.add("Combine " + xItem + " with " + p[0] + " in an anvil.");
+			inst.add("Next combine your " + p[1] + " book with your " + p[2] + " book.");
+			inst.add("After that, combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
+			inst.add("Now combine your " + p[3] + " book with your " + p[4] + " book.");
+			inst.add("Afterwards combine your " + xItem + " with your " + p[3] + " and " + p[4] + " book.");
+			inst.add("Finally combine your " + xItem + " with the " + p[5] + " book.");
 		}
 		else if (seq.size() == 7) {
-			System.out.println("Combine " + xItem + " with " + p[0] + " in an anvil.");
-			System.out.println("Next combine your " + p[1] + " book with your " + p[2] + " book.");
-			System.out.println("After that, combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
-			System.out.println("Now combine your " + p[3] + " book with your " + p[4] + " book.");
-			System.out.println("Then combine your " + p[5] + " book with your " + p[6] + " book.");
-			System.out.println("Afterwards combine your " + p[3] + " and " + p[4] + " book with your " + p[5] + " and " + p[6] + " book.");
-			System.out.println("Finally combine your " + xItem + " and the book with four enchantments");
+			inst.add("Combine " + xItem + " with " + p[0] + " in an anvil.");
+			inst.add("Next combine your " + p[1] + " book with your " + p[2] + " book.");
+			inst.add("After that, combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
+			inst.add("Now combine your " + p[3] + " book with your " + p[4] + " book.");
+			inst.add("Then combine your " + p[5] + " book with your " + p[6] + " book.");
+			inst.add("Afterwards combine your " + p[3] + " and " + p[4] + " book with your " + p[5] + " and " + p[6] + " book.");
+			inst.add("Finally combine your " + xItem + " and the book with four enchantments");
 		}
 		else if (seq.size() == 8) {
-			System.out.println("Combine " + xItem + " with " + p[0] + " in an anvil.");
-			System.out.println("Next combine your" + p[1] + " book with your " + p[2] + " book.");
-			System.out.println("After that, combine your " + p[0] + " " + item + " with your " + p[1] + " and " + p[2] + " book.");
-			System.out.println("Now combine your" + p[3] + " book with your " + p[4] + " book.");
-			System.out.println("Then combine your" + p[5] + " book with your " + p[6] + " book.");
-			System.out.println("Afterwards combine your " + p[3] + " and " + p[4] + " book with your " + p[5] + " and " + p[6] + " book.");
-			System.out.println("Next combine your " + xItem + " and your very enchanted book.");
-			System.out.println("Finally combine your " + xItem + " and the " + p[7] + " book.");	
+			inst.add("Combine " + xItem + " with " + p[0] + " in an anvil.");
+			inst.add("Next combine your" + p[1] + " book with your " + p[2] + " book.");
+			inst.add("After that, combine your " + p[0] + " " + item + " with your " + p[1] + " and " + p[2] + " book.");
+			inst.add("Now combine your" + p[3] + " book with your " + p[4] + " book.");
+			inst.add("Then combine your" + p[5] + " book with your " + p[6] + " book.");
+			inst.add("Afterwards combine your " + p[3] + " and " + p[4] + " book with your " + p[5] + " and " + p[6] + " book.");
+			inst.add("Next combine your " + xItem + " and your very enchanted book.");
+			inst.add("Finally combine your " + xItem + " and the " + p[7] + " book.");	
 		}
 		else if (seq.size() == 8) {
-		System.out.println("Combine " + xItem + " with " + p[0] + " in an anvil.");
-		System.out.println("Next combine your" + p[1] + " book with your " + p[2] + " book.");
-		System.out.println("After that, combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
-		System.out.println("Now combine your" + p[3] + " book with your " + p[4] + " book.");
-		System.out.println("Then combine your" + p[5] + " book with your " + p[6] + " book.");
-		System.out.println("Afterwards combine your " + p[3] + " and " + p[4] + " book with your " + p[5] + " and " + p[6] + " book.");
-		System.out.println("Next combine your " + xItem + " and your very enchanted book.");
-		System.out.println("After that, combine the " + p[7] + " book with the " + p[8] + " book");
-		System.out.println("Finally combine your " + xItem + " with your " + p[7] + " and " + p[8] + " book.");
+		inst.add("Combine " + xItem + " with " + p[0] + " in an anvil.");
+		inst.add("Next combine your" + p[1] + " book with your " + p[2] + " book.");
+		inst.add("After that, combine your " + p[0] + " " + xItem + " with your " + p[1] + " and " + p[2] + " book.");
+		inst.add("Now combine your" + p[3] + " book with your " + p[4] + " book.");
+		inst.add("Then combine your" + p[5] + " book with your " + p[6] + " book.");
+		inst.add("Afterwards combine your " + p[3] + " and " + p[4] + " book with your " + p[5] + " and " + p[6] + " book.");
+		inst.add("Next combine your " + xItem + " and your very enchanted book.");
+		inst.add("After that, combine the " + p[7] + " book with the " + p[8] + " book");
+		inst.add("Finally combine your " + xItem + " with your " + p[7] + " and " + p[8] + " book.");
 		}
 
+		//turns it into a readible recipe. Used to be more optimized, but this is clearer to read and edit.
+		
+	    for(int y = 0; y < inst.size(); y++) {
+	    	System.out.println(inst.get(y));
+	    }
 		end();
 	}
 	
@@ -309,12 +334,69 @@ public class Main {
 	
 	public void end() {
 		System.out.println();
-		System.out.print("Press enter to exit.");
+		System.out.println("Type 'Export' to export to your last txt. Otherwise press enter to exit.");
 		
+		notCreated = true;
+
+		int i = 1;
 		
 		Scanner ex = new Scanner(System.in);
 
 	    String exitKey = ex.nextLine(); 
+
+	    if (exitKey.equalsIgnoreCase("Export")) {
+			while (notCreated) {
+				i++;
+				name = "Instructions" + i + ".txt";
+				fileCreate(name);
+				}
+	    }
+	    
+	    try {
+	        FileWriter myWriter = new FileWriter(name);
+		    for(int p = 0; p < inst.size(); p++) {
+		    	myWriter.write(inst.get(p) + "\r\n");
+		    }
+	        myWriter.close();
+	        System.out.println("Successfully wrote to the file.");
+	      } catch (IOException e) {
+	        System.out.println("An error occurred.");
+	        e.printStackTrace();
+	      }
+	    
+	    
+        //System.out.println("Type restart to restart with the same export file");
+	    System.out.println("Press enter to exit");
+		Scanner resta = new Scanner(System.in);
+
+	    String restart = resta.nextLine(); 
+	    
+//	    if(restart.equalsIgnoreCase("Restart")) {
+//	    	restart(i);
+//	    }
+//	    else {}
 	}
+	public void fileCreate(String p) {
+		//Create File
+		try {
+        File myObj = new File(p);
+        if (myObj.createNewFile()) {
+          System.out.println("File created: " + myObj.getName());
+          notCreated = false;
+        } else {
+        	//file exists
+        }
+      } 
+		catch (IOException e) {
+        System.out.println("An error occurred.");
+        e.printStackTrace();
+      }
+	}
+	
+	public void restart(int si) {
+		//work in progress.
+		//current design wont work ill have to go through the main
+	}
+	
 
 }
