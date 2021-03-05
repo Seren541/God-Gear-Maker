@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ItemType {
 		
 	String[] se = {"Sharpness", "Smite", "Bane of Arthropods", "Looting", "Unbreaking", "Mending", "Sweeping Edge", "Knockback", "Fire Aspect", "Curse of Vanishing"};
-	String[] ae = {"Sharpness", "Smite", "Bane of Arthropods", "Unbreaking", "Mending", "Efficiency", "Silk Touch5", "Fortune6", "Curse of Vanishing"};
+	String[] ae = {"Sharpness", "Smite", "Bane of Arthropods", "Unbreaking", "Mending", "Efficiency", "Silk Touch", "Fortune", "Curse of Vanishing"};
 	String[] te = {"Efficiency", "Unbreaking", "Mending", "Silk Touch", "Fortune", "Curse of Vanishing"};
 	String[] t2e = {"Efficiency", "Unbreaking", "Mending", "Silk Touch", "Fortune", "Curse of Vanishing"};
 	String[] hee = {"Protection", "Fire Protection", "Blast Protection", "ProjectileProtection", "Thorns", "Respiration", "Aqua Affinity", "Unbreaking", "Mending", "Curse of Binding", "Curse of Vanishing"};
@@ -14,10 +14,10 @@ public class ItemType {
 	String[] le = {"Protection", "Fire Protection", "Blast Protection", "ProjectileProtection", "Thorns", "Unbreaking", "Mending", "Curse of Binding", "Curse of Vanishing"};
 	String[] be = {"Protection", "Fire Protection", "Blast Protection", "ProjectileProtection", "Thorns", "Depth Strider", "Unbreaking", "Mending", "Curse of Binding", "Curse of Vanishing", "Soul Speed", 
 			"Frost Walker", "Feather Falling"};
-	String[] boe = {"Unbreaking", "Flame", "Infinity1", "Power", "Punch", "Mending2", "Curse of Vanishing"};
+	String[] boe = {"Unbreaking", "Flame", "Infinity", "Power", "Punch", "Mending", "Curse of Vanishing"};
 	String[] she = {"Efficiency", "Unbreaking", "Mending", "Curse of Vanishing"};
 	String[] fe = {"Luck of the Sea", "Mending", "Unbreaing", "Lure", "Curse of Vanishing"};
-	String[] cbe = {"Unbreaking", "Mending", "Piercing1", "Quick Charge", "Multishot2", "Curse of Vanishing"};
+	String[] cbe = {"Unbreaking", "Mending", "Piercing", "Quick Charge", "Multishot", "Curse of Vanishing"};
 	String[] he = {"Curse of Binding", "Curse of Vanishing"};
 	String[] ee = {"Unbreaking", "Mending", "Curse of Vanishing", "Curse of Binding"};
 	String[] tre = {"Unbreaking", "Mending", "Impaling", "Loyalty", "Channeling", "Riptide", "Curse of Vanishing"};
@@ -25,13 +25,17 @@ public class ItemType {
 	
 	String mTempEn;
 	String mItem;
+	boolean mSet;
+	String mName;
 	
 	Main main = new Main();
 	
-	public ItemType(String TempEn, String Item) {
+	public ItemType(String TempEn, String Item, boolean set, String name) {
 		
 		mTempEn = TempEn;
 		mItem = Item;
+		mSet = set;
+		mName = name;
 		
 	}
 	
@@ -93,8 +97,6 @@ public class ItemType {
 		Main main = new Main();
 		
 		boolean stop = false;
-		boolean s1 = false;
-		boolean s2 = false;
 		boolean notGod = true;
 		
 		while(!stop) {
@@ -107,6 +109,7 @@ public class ItemType {
 			}
 			else if (mTempEn.equalsIgnoreCase("God")) {
 				stop = true;
+				notGod = false;
 				God(arr);
 			}
 			else if (mTempEn.equalsIgnoreCase("Commands")) {
@@ -120,9 +123,9 @@ public class ItemType {
 				System.out.println("This is not a proper enchantment. Please input a correct one.");
 			}
 		}
-		
-		main.compute(mItem);
-	
+		if (notGod) {
+		main.compute(mItem, mSet, mName);
+		}
 	}
 	
 	public void eq2() {
@@ -141,50 +144,50 @@ public class ItemType {
 	}
 		public void God(String[] ag) {
 			if (ag == cbe) {
-				main.setCompute(cbe[0], cbe[1], cbe[2], cbe[3], "none", "none", "none", "none", "none", "Crossbow");
+				main.setCompute(cbe[0], cbe[1], cbe[2], cbe[3], "none", "none", "none", "none", "none", "Crossbow", mSet, mName);
 			}
 			else if (ag == he) {
 				System.out.println("Don't do anything.");
-				main.end();
+				main.end(mSet, mName);
 			}
 			else if (ag == ee) {
-				main.setCompute(ee[0], ee[1], "none", "none", "none", "none", "none", "none", "none", "Elytra");
+				main.setCompute(ee[0], ee[1], "none", "none", "none", "none", "none", "none", "none", "Elytra", mSet, mName);
 			}
 			else if (ag == oe) {
-				main.setCompute(oe[0], oe[1], "none", "none", "none", "none", "none", "none", "none", mItem);
+				main.setCompute(oe[0], oe[1], "none", "none", "none", "none", "none", "none", "none", mItem, mSet, mName);
 			}
 			else if (ag == tre) {
-				main.setCompute(tre[0], tre[1], tre[2], tre[3], tre[4], "none", "none", "none", "none", "Trident");
+				main.setCompute(tre[0], tre[1], tre[2], tre[3], tre[4], "none", "none", "none", "none", "Trident", mSet, mName);
 			}
 			else if (ag == she) {
-				main.setCompute(she[0], she[1], she[2], "none", "none", "none", "none", "none", "none",  "Shears");
+				main.setCompute(she[0], she[1], she[2], "none", "none", "none", "none", "none", "none",  "Shears", mSet, mName);
 			}
 			else if (ag == boe) {
-				main.setCompute(boe[0], boe[1], boe[2], boe[3], boe[4], "none", "none", "none", "none", "Bow");
+				main.setCompute(boe[0], boe[1], boe[2], boe[3], boe[4], "none", "none", "none", "none", "Bow", mSet, mName);
 			}
 			else if (ag == be) {
-				main.setCompute(be[0], be[4], be[5], be[6], be[7], be[10], be[12], "none", "none", "Boots");
+				main.setCompute(be[0], be[4], be[5], be[6], be[7], be[10], be[12], "none", "none", "Boots", mSet, mName);
 			}
 			else if (ag == le) {
-				main.setCompute(le[0], le[4], le[5], le[6], "none", "none", "none", "none", "none", "Leggings");
+				main.setCompute(le[0], le[4], le[5], le[6], "none", "none", "none", "none", "none", "Leggings", mSet, mName);
 			}
 			else if (ag == ce) {
-				main.setCompute(ce[0], ce[4], ce[5], ce[6], "none", "none", "none", "none", "none", "Chestplate");
+				main.setCompute(ce[0], ce[4], ce[5], ce[6], "none", "none", "none", "none", "none", "Chestplate", mSet, mName);
 			}
 			else if (ag == hee) {
-				main.setCompute(hee[0], hee[4], hee[5], hee[6], hee[7], hee[8], "none",  "none", "none", "Helmet");
+				main.setCompute(hee[0], hee[4], hee[5], hee[6], hee[7], hee[8], "none",  "none", "none", "Helmet", mSet, mName);
 			}
 			else if (ag == te) {
-				main.setCompute(te[0], te[1], te[2], te[4], "none", "none", "none", "none", "none", mItem);	
+				main.setCompute(te[0], te[1], te[2], te[3], "none", "none", "none", "none", "none", mItem, mSet, mName);	
 			}
 			else if (ag == t2e) {
-				main.setCompute(t2e[0], t2e[1], t2e[2], t2e[3], "none", "none", "none", "none", "none", mItem);	
+				main.setCompute(t2e[0], t2e[1], t2e[2], t2e[4], "none", "none", "none", "none", "none", mItem, mSet, mName);	
 			}
 			else if (ag == ae) {
-				main.setCompute(ae[0], ae[3], ae[4], ae[5], ae[7], "none", "none", "none", "none", "Axe");
+				main.setCompute(ae[0], ae[3], ae[4], ae[5], ae[7], "none", "none", "none", "none", "Axe", mSet, mName);
 			}
 			else if (ag == se) {
-				main.setCompute(se[0], se[3], se[4], se[5], se[6], se[7], se[8], "none", "none", "Sword");
+				main.setCompute(se[0], se[3], se[4], se[5], se[6], se[7], se[8], "none", "none", "Sword", mSet, mName);
 			}
 		}
 

@@ -29,7 +29,7 @@ public class Main {
 			"Mending", "Curse of Binding", "Curse of Vanishing", "Impaling", "Riptide",
 			"Loyalty", "Channeling", "Multishot", "Piercing", "Quick Charge", "Soul Speed", 
 			"Sweeping Edge"};
-	
+
 	String[] t = {"Sword", "Axe", "Fortune Pickaxe", "Pickaxe", "Pick", "Shovel", "Hoe", "Helmet", 
 			"Chestplate", "Leggings", "Boots", "Bow", "Shears", "Crossbow", "Head", "Player Head",
 			"Pumpkin", "Elytra", "Trident", "Flint and Steel", "Carrot on a Stick",
@@ -45,12 +45,13 @@ public class Main {
 	String item = "error2";
 	String name;
 	boolean notCreated;
+	boolean notFound;
 	
 	int[] m = {4,4,4,4,4,3,3,3,1,5,5,5,2,2,3,5,1,3,3,5,2,1,1,3,3,2,1,1,1,5,3,3,1,1,4,3,3,3};
 	int[] i = {1,1,1,2,1,4,2,2,2,1,1,1,1,2,2,1,4,1,2,1,2,2,4,2,2,2,2,4,4,2,2,1,4,2,1,1,4,2};
 	
-	int seti = 0;
 	boolean set = false;
+	int seti = 0;
 	
 	//This is just data about the enchantments that I need to store to calculate cost.
 	
@@ -76,7 +77,7 @@ public class Main {
 		}
 		//this part figures out which item you are trying to enchant (calls itemQuery())
 		
-		ItemType select = new ItemType(tempEn, item);
+		ItemType select = new ItemType(tempEn, item, set, name);
 		
 		select.item();
 		
@@ -92,7 +93,7 @@ public class Main {
 	}
 	
 	
-	public void compute(String xItem) {
+	public void compute(String xItem, boolean rSet, String rName) {
 		
 		//TODO: I'll add more stuff like compatibility warnings. Also I need to fix all the errors.
 		
@@ -146,12 +147,13 @@ public class Main {
 		for(int l2 = 0; l2 < f.length; l2++) {
 			f[l2] = f[l2].replaceAll("[0-9]","");
 		}
+		//takes out the numbers
 		
 		if (fin.size() == 1) {
 			seq.add(f[0]);
 		}
 		
-		else {
+		else if (fin.size() > 1 && fin.size() < 10){
 		seq.add(f[0]);
 		seq.add(f[1]);
 		
@@ -198,7 +200,9 @@ public class Main {
 				seq.add(f[6]);
 			}
 		}
-		
+		else {
+		System.out.println("You have inputed too many enchantments");
+		}
 		//order they need to be added them
 		
 	    Object[] print = seq.toArray();
@@ -275,7 +279,7 @@ public class Main {
 	    for(int y = 0; y < inst.size(); y++) {
 	    	System.out.println(inst.get(y));
 	    }
-		end();
+		end(rSet, rName);
 	}
 	
 	public void fin (String item, String ench1, String opEnch) {
@@ -287,10 +291,13 @@ public class Main {
 		}
 	}
 	
-	public void setCompute(String e1, String e2, String e3, String e4, String e5, String e6, String e7, String e8, String e9, String sItem) {
+	public void setCompute(String e1, String e2, String e3, String e4, String e5, String e6, String e7, String e8, String e9, String sItem, boolean iSet, String iName) {
 		compute.clear();
+		//TODO: make this into an array list
 		
-		compute.add(e1);
+		if (!(e1.equalsIgnoreCase("none"))) {
+			compute.add(e1);
+		}
 		if (!(e2.equalsIgnoreCase("none"))) {
 			compute.add(e2);
 		}
@@ -315,7 +322,7 @@ public class Main {
 		if (!(e9.equalsIgnoreCase("none"))) {
 			compute.add(e9);
 		}
-		compute(sItem);	
+		compute(sItem, iSet, iName);	
 		
 		//This registers all god items to run instantly.
 	}
@@ -332,49 +339,60 @@ public class Main {
 		}
 	}
 	
-	public void end() {
+	public void end(boolean isSet, String isName) {
 		System.out.println();
-		System.out.println("Type 'Export' to export to your last txt. Otherwise press enter to exit.");
+		System.out.println("Type 'Export' to export to your list. Otherwise press enter to exit.");
 		
 		notCreated = true;
-
-		int i = 1;
+		notFound = true;
+		
+		name = isName;
 		
 		Scanner ex = new Scanner(System.in);
 
 	    String exitKey = ex.nextLine(); 
 
 	    if (exitKey.equalsIgnoreCase("Export")) {
+	    	
+	    	if(isSet == false) {
+			int i = 0;
 			while (notCreated) {
 				i++;
 				name = "Instructions" + i + ".txt";
 				fileCreate(name);
 				}
+	    	}
+	    	
+			try {
+		        FileWriter myWriter = new FileWriter(name, true);
+		        if(isSet == true) {
+		        	myWriter.write("\r\n");
+		        }
+			    for(int p = 0; p < inst.size(); p++) {
+			    	myWriter.write(inst.get(p) + "\r\n");
+			    }
+		        myWriter.close();
+		        System.out.println("Successfully wrote to the file.");
+		      } catch (IOException e) {
+		        System.out.println("An error occurred.");
+		        e.printStackTrace();
+		      }
+			
+			System.out.println("");
+	        System.out.println("Type 'Restart' to restart with the same export file");
+		    System.out.println("Press enter to exit");
+		    
+			Scanner resta = new Scanner(System.in);
+
+		    String restart = resta.nextLine(); 
+		   
+		    if(restart.equalsIgnoreCase("Restart")) {
+			set = true;
+	    	restart();
+	    	}
+	    	else {}
 	    }
 	    
-	    try {
-	        FileWriter myWriter = new FileWriter(name);
-		    for(int p = 0; p < inst.size(); p++) {
-		    	myWriter.write(inst.get(p) + "\r\n");
-		    }
-	        myWriter.close();
-	        System.out.println("Successfully wrote to the file.");
-	      } catch (IOException e) {
-	        System.out.println("An error occurred.");
-	        e.printStackTrace();
-	      }
-	    
-	    
-        //System.out.println("Type restart to restart with the same export file");
-	    System.out.println("Press enter to exit");
-		Scanner resta = new Scanner(System.in);
-
-	    String restart = resta.nextLine(); 
-	    
-//	    if(restart.equalsIgnoreCase("Restart")) {
-//	    	restart(i);
-//	    }
-//	    else {}
 	}
 	public void fileCreate(String p) {
 		//Create File
@@ -393,9 +411,13 @@ public class Main {
       }
 	}
 	
-	public void restart(int si) {
-		//work in progress.
-		//current design wont work ill have to go through the main
+	public void restart() {
+		compute.clear();
+		fin.clear();
+		seq.clear();
+		inst.clear();
+		setUp();
+		
 	}
 	
 
