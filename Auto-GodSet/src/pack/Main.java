@@ -37,7 +37,6 @@ public class Main {
 
 	//sets all valid enchantments/items
 	
-	public ArrayList<String> compute = new ArrayList<>();
 	ArrayList<String> fin = new ArrayList<>();
 	ArrayList<String> seq = new ArrayList<>();
 	ArrayList<String> inst = new ArrayList<>();
@@ -60,6 +59,9 @@ public class Main {
 	int[] tempFin;
 	
 	public void setUp() {
+		
+		//TODO: turn all the if blocks into arrays
+		//TODO: Add editable levels
 			
 		System.out.println("What would you like to enchant? Do not include material in answer.");
 		boolean checking = true;
@@ -93,9 +95,7 @@ public class Main {
 	}
 	
 	
-	public void compute(String xItem, boolean rSet, String rName) {
-		
-		//TODO: I'll add more stuff like compatibility warnings. Also I need to fix all the errors.
+	public void compute(String xItem, boolean rSet, String rName, ArrayList compute) {
 		
 		String tempNum;
 		int tempNumInt;
@@ -291,42 +291,6 @@ public class Main {
 		}
 	}
 	
-	public void setCompute(String e1, String e2, String e3, String e4, String e5, String e6, String e7, String e8, String e9, String sItem, boolean iSet, String iName) {
-		compute.clear();
-		//TODO: make this into an array list
-		
-		if (!(e1.equalsIgnoreCase("none"))) {
-			compute.add(e1);
-		}
-		if (!(e2.equalsIgnoreCase("none"))) {
-			compute.add(e2);
-		}
-		if (!(e3.equalsIgnoreCase("none"))) {
-			compute.add(e3);
-		}
-		if (!(e4.equalsIgnoreCase("none"))) {
-			compute.add(e4);
-		}
-		if (!(e5.equalsIgnoreCase("none"))) {
-			compute.add(e5);
-		}
-		if (!(e6.equalsIgnoreCase("none"))) {
-			compute.add(e6);
-		}
-		if (!(e7.equalsIgnoreCase("none"))) {
-			compute.add(e7);
-		}
-		if (!(e8.equalsIgnoreCase("none"))) {
-			compute.add(e8);
-		}
-		if (!(e9.equalsIgnoreCase("none"))) {
-			compute.add(e9);
-		}
-		compute(sItem, iSet, iName);	
-		
-		//This registers all god items to run instantly.
-	}
-	
 	public void list() {
 		for(int l = 0; l < e.length; l++) {
 			System.out.println(e[l]);
@@ -412,7 +376,6 @@ public class Main {
 	}
 	
 	public void restart() {
-		compute.clear();
 		fin.clear();
 		seq.clear();
 		inst.clear();

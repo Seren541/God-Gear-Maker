@@ -1,5 +1,6 @@
 package pack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -28,7 +29,11 @@ public class ItemType {
 	boolean mSet;
 	String mName;
 	
+	boolean ic = true;
+	
 	Main main = new Main();
+	ArrayList<String> compute = new ArrayList<>();
+
 	
 	public ItemType(String TempEn, String Item, boolean set, String name) {
 		
@@ -116,16 +121,69 @@ public class ItemType {
 				commands();
 			}
 			else if (Arrays.asList(arr).contains(mTempEn)) {
-				
-				main.compute.add(mTempEn);
+				ic = true;
+				isCompatible();
+				if(ic) {
+					compute.add(mTempEn);
+				}
+				else {
+					System.out.println("This enchantment is incompatible/a duplicate of a previous one");
+				}
 			}
 			else {
 				System.out.println("This is not a proper enchantment. Please input a correct one.");
 			}
 		}
 		if (notGod) {
-		main.compute(mItem, mSet, mName);
+		main.compute(mItem, mSet, mName, compute);
 		}
+	}
+	
+	public void isCompatible() {
+		if(compute.contains(mTempEn)) {
+			ic = false;
+		}
+		else if (mTempEn.equalsIgnoreCase("Protection") || mTempEn.equalsIgnoreCase("Blast Protection") || mTempEn.equalsIgnoreCase("Fire Protection") || mTempEn.equalsIgnoreCase("Projectile Protection")) {
+			if(compute.contains("Blast Protection") || compute.contains("Fire Protection") || compute.contains("Projectile Protection") || compute.contains("Protection")) {
+			ic = false;
+			}
+		}
+		else if (mTempEn.equalsIgnoreCase("Infinity") || mTempEn.equalsIgnoreCase("Mending")) {
+			if(compute.contains("Mending") || compute.contains("Infinity")) {
+			ic = false;
+			}
+		}
+		else if (mTempEn.equalsIgnoreCase("Riptide")) {
+			if(compute.contains("Channeling") || compute.contains("Loyalty")) {
+			ic = false;
+			}
+		}
+		else if (mTempEn.equalsIgnoreCase("Channeling") || mTempEn.equalsIgnoreCase("Loyalty")) {
+			if(compute.contains("Riptide")) {
+			ic = false;
+			}
+		}
+		else if (mTempEn.equalsIgnoreCase("Piercing") || mTempEn.equalsIgnoreCase("Multishot")) {
+			if(compute.contains("Piercing") || compute.contains("Multishot")) {
+			ic = false;
+			}
+		}
+		else if (mTempEn.equalsIgnoreCase("Silk Touch") || mTempEn.equalsIgnoreCase("Fortune")) {
+			if(compute.contains("Silk Touch") || compute.contains("Fortune")) {
+			ic = false;
+			}
+		}
+		else if (mTempEn.equalsIgnoreCase("Depth Strider") || mTempEn.equalsIgnoreCase("Frost Walker")) {
+			if(compute.contains("Depth Strider") || compute.contains("Frost Walker")) {
+			ic = false;
+			}
+		}
+		else if (mTempEn.equalsIgnoreCase("Bane of Arthropods") || mTempEn.equalsIgnoreCase("Smite") || mTempEn.equalsIgnoreCase("Sharpness")) {
+			if(compute.contains("Bane of Arthropods") || compute.contains("Smite") || compute.contains("Sharpness")) {
+			ic = false;
+			}
+		}
+		
 	}
 	
 	public void eq2() {
@@ -144,53 +202,86 @@ public class ItemType {
 	}
 		public void God(String[] ag) {
 			if (ag == cbe) {
-				main.setCompute(cbe[0], cbe[1], cbe[2], cbe[3], "none", "none", "none", "none", "none", "Crossbow", mSet, mName);
+				setCompute(cbe[0], cbe[1], cbe[2], cbe[3], "none", "none", "none", "none", "none", "Crossbow", mSet, mName);
 			}
 			else if (ag == he) {
 				System.out.println("Don't do anything.");
 				main.end(mSet, mName);
 			}
 			else if (ag == ee) {
-				main.setCompute(ee[0], ee[1], "none", "none", "none", "none", "none", "none", "none", "Elytra", mSet, mName);
+				setCompute(ee[0], ee[1], "none", "none", "none", "none", "none", "none", "none", "Elytra", mSet, mName);
 			}
 			else if (ag == oe) {
-				main.setCompute(oe[0], oe[1], "none", "none", "none", "none", "none", "none", "none", mItem, mSet, mName);
+				setCompute(oe[0], oe[1], "none", "none", "none", "none", "none", "none", "none", mItem, mSet, mName);
 			}
 			else if (ag == tre) {
-				main.setCompute(tre[0], tre[1], tre[2], tre[3], tre[4], "none", "none", "none", "none", "Trident", mSet, mName);
+				setCompute(tre[0], tre[1], tre[2], tre[3], tre[4], "none", "none", "none", "none", "Trident", mSet, mName);
 			}
 			else if (ag == she) {
-				main.setCompute(she[0], she[1], she[2], "none", "none", "none", "none", "none", "none",  "Shears", mSet, mName);
+				setCompute(she[0], she[1], she[2], "none", "none", "none", "none", "none", "none",  "Shears", mSet, mName);
 			}
 			else if (ag == boe) {
-				main.setCompute(boe[0], boe[1], boe[2], boe[3], boe[4], "none", "none", "none", "none", "Bow", mSet, mName);
+				setCompute(boe[0], boe[1], boe[2], boe[3], boe[4], "none", "none", "none", "none", "Bow", mSet, mName);
 			}
 			else if (ag == be) {
-				main.setCompute(be[0], be[4], be[5], be[6], be[7], be[10], be[12], "none", "none", "Boots", mSet, mName);
+				setCompute(be[0], be[4], be[5], be[6], be[7], be[10], be[12], "none", "none", "Boots", mSet, mName);
 			}
 			else if (ag == le) {
-				main.setCompute(le[0], le[4], le[5], le[6], "none", "none", "none", "none", "none", "Leggings", mSet, mName);
+				setCompute(le[0], le[4], le[5], le[6], "none", "none", "none", "none", "none", "Leggings", mSet, mName);
 			}
 			else if (ag == ce) {
-				main.setCompute(ce[0], ce[4], ce[5], ce[6], "none", "none", "none", "none", "none", "Chestplate", mSet, mName);
+				setCompute(ce[0], ce[4], ce[5], ce[6], "none", "none", "none", "none", "none", "Chestplate", mSet, mName);
 			}
 			else if (ag == hee) {
-				main.setCompute(hee[0], hee[4], hee[5], hee[6], hee[7], hee[8], "none",  "none", "none", "Helmet", mSet, mName);
+				setCompute(hee[0], hee[4], hee[5], hee[6], hee[7], hee[8], "none",  "none", "none", "Helmet", mSet, mName);
 			}
 			else if (ag == te) {
-				main.setCompute(te[0], te[1], te[2], te[3], "none", "none", "none", "none", "none", mItem, mSet, mName);	
+				setCompute(te[0], te[1], te[2], te[3], "none", "none", "none", "none", "none", mItem, mSet, mName);	
 			}
 			else if (ag == t2e) {
-				main.setCompute(t2e[0], t2e[1], t2e[2], t2e[4], "none", "none", "none", "none", "none", mItem, mSet, mName);	
+				setCompute(t2e[0], t2e[1], t2e[2], t2e[4], "none", "none", "none", "none", "none", mItem, mSet, mName);	
 			}
 			else if (ag == ae) {
-				main.setCompute(ae[0], ae[3], ae[4], ae[5], ae[7], "none", "none", "none", "none", "Axe", mSet, mName);
+				setCompute(ae[0], ae[3], ae[4], ae[5], ae[7], "none", "none", "none", "none", "Axe", mSet, mName);
 			}
 			else if (ag == se) {
-				main.setCompute(se[0], se[3], se[4], se[5], se[6], se[7], se[8], "none", "none", "Sword", mSet, mName);
+				setCompute(se[0], se[3], se[4], se[5], se[6], se[7], se[8], "none", "none", "Sword", mSet, mName);
 			}
 		}
-
+		
+		public void setCompute(String e1, String e2, String e3, String e4, String e5, String e6, String e7, String e8, String e9, String sItem, boolean iSet, String iName) {
+			compute.clear();			
+			if (!(e1.equalsIgnoreCase("none"))) {
+				compute.add(e1);
+			}
+			if (!(e2.equalsIgnoreCase("none"))) {
+				compute.add(e2);
+			}
+			if (!(e3.equalsIgnoreCase("none"))) {
+				compute.add(e3);
+			}
+			if (!(e4.equalsIgnoreCase("none"))) {
+				compute.add(e4);
+			}
+			if (!(e5.equalsIgnoreCase("none"))) {
+				compute.add(e5);
+			}
+			if (!(e6.equalsIgnoreCase("none"))) {
+				compute.add(e6);
+			}
+			if (!(e7.equalsIgnoreCase("none"))) {
+				compute.add(e7);
+			}
+			if (!(e8.equalsIgnoreCase("none"))) {
+				compute.add(e8);
+			}
+			if (!(e9.equalsIgnoreCase("none"))) {
+				compute.add(e9);
+			}
+			main.compute(sItem, iSet, iName, compute);	
+			
+			//This registers all god items to run instantly.
+		}
 		public void arrayList(String[] a) {
 			for(int l = 0; l < a.length; l++) {
 				System.out.println(a[l]);
