@@ -202,82 +202,90 @@ public class ItemType {
 	}
 		public void God(String[] ag) {
 			if (ag == cbe) {
-				setCompute(cbe[0], cbe[1], cbe[2], cbe[3], "none", "none", "none", "none", "none", "Crossbow", mSet, mName);
+				int[] undefGod = {0, 1, 2, 3};
+				computeAdd(cbe, undefGod);
+				send("Crossbow", mSet, mName);
 			}
 			else if (ag == he) {
 				System.out.println("Don't do anything.");
 				main.end(mSet, mName);
 			}
 			else if (ag == ee) {
-				setCompute(ee[0], ee[1], "none", "none", "none", "none", "none", "none", "none", "Elytra", mSet, mName);
+				int[] undefGod = {0, 1};
+				computeAdd(ee, undefGod);
+				send("Elytra", mSet, mName);
 			}
 			else if (ag == oe) {
-				setCompute(oe[0], oe[1], "none", "none", "none", "none", "none", "none", "none", mItem, mSet, mName);
-			}
+				int[] undefGod = {0, 1};
+				computeAdd(oe, undefGod);
+				send(mItem, mSet, mName);			
+				}
 			else if (ag == tre) {
-				setCompute(tre[0], tre[1], tre[2], tre[3], tre[4], "none", "none", "none", "none", "Trident", mSet, mName);
-			}
+				int[] undefGod = {0, 1, 2, 3, 4};
+				computeAdd(tre, undefGod);	
+				send("Trident", mSet, mName);		
+				}
 			else if (ag == she) {
-				setCompute(she[0], she[1], she[2], "none", "none", "none", "none", "none", "none",  "Shears", mSet, mName);
+				int[] undefGod = {0, 1, 2};
+				computeAdd(she, undefGod);	
+				send("Shears", mSet, mName);	
 			}
 			else if (ag == boe) {
-				setCompute(boe[0], boe[1], boe[2], boe[3], boe[4], "none", "none", "none", "none", "Bow", mSet, mName);
-			}
+				int[] undefGod = {0, 1, 2, 3, 4};
+				computeAdd(boe, undefGod);		
+				send("Bow", mSet, mName);		
+				}
 			else if (ag == be) {
-				setCompute(be[0], be[4], be[5], be[6], be[7], be[10], be[12], "none", "none", "Boots", mSet, mName);
+				int[] undefGod = {0, 4, 5, 6, 7, 10, 12};
+				computeAdd(be, undefGod);
+				send("Boots", mSet, mName);
 			}
 			else if (ag == le) {
-				setCompute(le[0], le[4], le[5], le[6], "none", "none", "none", "none", "none", "Leggings", mSet, mName);
+				int[] undefGod = {0, 4, 5, 6};
+				computeAdd(le, undefGod);
+				send("Leggings", mSet, mName);
 			}
 			else if (ag == ce) {
-				setCompute(ce[0], ce[4], ce[5], ce[6], "none", "none", "none", "none", "none", "Chestplate", mSet, mName);
+				int[] undefGod = {0, 4, 5, 6};
+				computeAdd(ce, undefGod);
+				send("Chestplate", mSet, mName);
 			}
 			else if (ag == hee) {
-				setCompute(hee[0], hee[4], hee[5], hee[6], hee[7], hee[8], "none",  "none", "none", "Helmet", mSet, mName);
+				int[] undefGod = {0, 4, 5, 6, 7, 8};
+				computeAdd(hee, undefGod);
+				send("Helmet", mSet, mName);
 			}
 			else if (ag == te) {
-				setCompute(te[0], te[1], te[2], te[3], "none", "none", "none", "none", "none", mItem, mSet, mName);	
+				int[] undefGod = {0, 1, 2, 3};
+				computeAdd(te, undefGod);
+				send(mItem, mSet, mName);	
 			}
-			else if (ag == t2e) {
-				setCompute(t2e[0], t2e[1], t2e[2], t2e[4], "none", "none", "none", "none", "none", mItem, mSet, mName);	
+			else if (ag == t2e) {		
+				int[] undefGod = {0, 1, 2, 4};
+				computeAdd(t2e, undefGod);	
+				send(mItem, mSet, mName);			
 			}
 			else if (ag == ae) {
-				setCompute(ae[0], ae[3], ae[4], ae[5], ae[7], "none", "none", "none", "none", "Axe", mSet, mName);
+				int[] undefGod = {0, 3, 4, 5, 7};
+				computeAdd(ae, undefGod);
+				send("Axe", mSet, mName);
 			}
 			else if (ag == se) {
-				setCompute(se[0], se[3], se[4], se[5], se[6], se[7], se[8], "none", "none", "Sword", mSet, mName);
+				int[] undefGod = {0, 3, 4, 5, 6, 7, 8};
+				computeAdd(se, undefGod);
+				send("Sword", mSet, mName);
 			}
 		}
 		
-		public void setCompute(String e1, String e2, String e3, String e4, String e5, String e6, String e7, String e8, String e9, String sItem, boolean iSet, String iName) {
-			compute.clear();			
-			if (!(e1.equalsIgnoreCase("none"))) {
-				compute.add(e1);
-			}
-			if (!(e2.equalsIgnoreCase("none"))) {
-				compute.add(e2);
-			}
-			if (!(e3.equalsIgnoreCase("none"))) {
-				compute.add(e3);
-			}
-			if (!(e4.equalsIgnoreCase("none"))) {
-				compute.add(e4);
-			}
-			if (!(e5.equalsIgnoreCase("none"))) {
-				compute.add(e5);
-			}
-			if (!(e6.equalsIgnoreCase("none"))) {
-				compute.add(e6);
-			}
-			if (!(e7.equalsIgnoreCase("none"))) {
-				compute.add(e7);
-			}
-			if (!(e8.equalsIgnoreCase("none"))) {
-				compute.add(e8);
-			}
-			if (!(e9.equalsIgnoreCase("none"))) {
-				compute.add(e9);
-			}
+		public void computeAdd(String[] encs, int[] i) {
+			compute.clear();	
+		    for(int y = 0; y < i.length; y++) {
+		    	compute.add(encs[i[y]]);
+		    	System.out.println(encs[i[y]]);
+		    	}
+		    }
+		
+		public void send(String sItem, boolean iSet, String iName) {		
 			main.compute(sItem, iSet, iName, compute);	
 			
 			//This registers all god items to run instantly.
