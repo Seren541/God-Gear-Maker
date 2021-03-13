@@ -95,7 +95,7 @@ public class Main {
 	}
 	
 	
-	public void compute(String xItem, boolean rSet, String rName, ArrayList compute) {
+	public void compute(String xItem, boolean rSet, String rName, ArrayList compute, ArrayList<Integer> cust) {
 		
 		String tempNum;
 		int tempNumInt;
@@ -104,6 +104,18 @@ public class Main {
 		String[] convert = Arrays.copyOf(conv, conv.length, String[].class);
 		//ArrayList to array for more compatibility
 		
+		if(!(cust.isEmpty())) {
+			for(int rep = 0; rep < e2.length; rep++) {
+				for(int l = 0; l < compute.size(); l++) {
+				
+					if (e2[rep].equalsIgnoreCase(convert[l])) {
+						m[rep] = cust.get(l).intValue();
+					}
+				}
+			}
+		}
+		
+		else {}
 		
 		for(int l = 0; l < e.length; l++) {
 			tempNumInt = m[l] * i[l];
