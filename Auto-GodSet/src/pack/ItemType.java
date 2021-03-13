@@ -30,9 +30,12 @@ public class ItemType {
 	String mName;
 	
 	boolean ic = true;
+	boolean custom = false;
+	int lvl = 0;
 	
 	Main main = new Main();
 	ArrayList<String> compute = new ArrayList<>();
+	ArrayList<Integer> customEnchants = new ArrayList<>();
 
 	
 	public ItemType(String TempEn, String Item, boolean set, String name) {
@@ -117,6 +120,9 @@ public class ItemType {
 				notGod = false;
 				God(arr);
 			}
+			if(mTempEn.equalsIgnoreCase("Custom")) {
+				custom = true;
+			}
 			else if (mTempEn.equalsIgnoreCase("Commands")) {
 				commands();
 			}
@@ -124,8 +130,14 @@ public class ItemType {
 				ic = true;
 				isCompatible();
 				if(ic) {
-					compute.add(mTempEn);
+				compute.add(mTempEn);
+					if(custom) {
+					System.out.println("What level would you like this enchantment to be?");
+						Scanner ce = new Scanner(System.in);  //Input enchantment.
+						lvl = ce.nextInt();
+					customEnchants.add(lvl);
 				}
+			}
 				else {
 					System.out.println("This enchantment is incompatible/a duplicate of a previous one");
 				}
@@ -133,9 +145,12 @@ public class ItemType {
 			else {
 				System.out.println("This is not a proper enchantment. Please input a correct one.");
 			}
+		
+		
+		
 		}
 		if (notGod) {
-		main.compute(mItem, mSet, mName, compute);
+		main.compute(mItem, mSet, mName, compute, customEnchants);
 		}
 	}
 	
@@ -199,6 +214,8 @@ public class ItemType {
 		System.out.println("Type 'God' to recieve the god enchantments for that item");
 		System.out.println("Type 'List' to get a list to copy and paste from (you must get the exact phrase or it won't register).");
 		System.out.println("Type 'Stop' to end adding new enchantments");
+		System.out.println("Type 'custom' to use custom levels for your enchantments.");
+
 	}
 		public void God(String[] ag) {
 			if (ag == cbe) {
@@ -285,8 +302,8 @@ public class ItemType {
 		    	}
 		    }
 		
-		public void send(String sItem, boolean iSet, String iName) {		
-			main.compute(sItem, iSet, iName, compute);	
+		public void send(String sItem, boolean iSet, String iName) {
+			main.compute(sItem, iSet, iName, compute, customEnchants);	
 			
 			//This registers all god items to run instantly.
 		}
